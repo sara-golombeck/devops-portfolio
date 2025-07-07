@@ -1,0 +1,102 @@
+replicaCount: 3
+
+deployment:
+  image:
+    repository: "980921758549.dkr.ecr.ap-south-1.amazonaws.com/sara/playlists-app"
+    tag: "latest"
+    pullPolicy: IfNotPresent
+
+nameOverride: ""
+fullnameOverride: ""
+
+certManager:
+  enabled: true
+  email: sara.beck.dev@gmail.com
+
+service:
+  type: ClusterIP
+  port: 5000
+  targetPort: 5000
+  name: playlist-api
+
+env:
+  FLASK_ENV: "production"
+  LOG_LEVEL: "INFO"
+
+mongodb:
+  global:
+    namespaceOverride: "mongodb"
+  architecture: replicaset
+  replicaCount: 2
+  auth:
+    enabled: true
+    existingSecret: mongodb-secret
+    secretKeys:
+      adminPassword: MONGODB_PASSWORD
+      userPassword: MONGODB_PASSWORD
+    username: mongouser
+    database: "playlists_db"
+
+  service:
+    port: 27017
+
+# Resource limits and requests
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 250m
+    memory: 256Mi
+
+# Horizontal Pod Autoscaler
+autoscaling:
+  enabled: false
+  minReplicas: 2
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 80
+
+# Health checks
+livenessProbe:
+  httpGet:
+    path: /health
+    port: 5000
+  initialDelaySeconds: 30
+  periodSeconds: 10
+  failureThreshold: 3
+
+# Security context
+securityContext:
+  runAsNonRoot: true
+  runAsUser: 10000
+  fsGroup: 10000
+
+# Ingress configuration
+ingress:
+  enabled: true
+  className: "nginx"
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+  hosts:
+    - host: sara-portfolio.ddns.net
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: playlist-app-tls
+      hosts:
+        - sara-portfolio.ddns.net
+
+clusterIssuer:
+  secretName: letsencrypt-prod
+  server: https://acme-v02.api.letsencrypt.org/directory
+  email: sara.beck.dev@gmail.com
+
+
+monitoring:
+  enabled: true   
+  path: "/metrics"
+  interval: "30s"
+  portName: "playlist-api"

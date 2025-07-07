@@ -1,0 +1,26 @@
+prometheus:
+  prometheusSpec:
+    serviceMonitorSelectorNilUsesHelmValues: false
+    serviceMonitorSelector: {}
+    retention: 15d
+    storageSpec:
+      volumeClaimTemplate:
+        spec:
+          storageClassName: gp3
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 10Gi
+
+grafana:
+  enabled: true
+  adminPassword: "admin123"
+  persistence:
+    enabled: true
+    size: 10Gi
+    storageClassName: gp3
+  ingress:
+    enabled: true
+    ingressClassName: nginx
+    hosts:
+      - grafana.sara-grafana.ddns.net

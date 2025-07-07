@@ -1,0 +1,134 @@
+
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: fluentbit
+  namespace: argocd
+  finalizers:                                    
+    - resources-finalizer.argocd.argoproj.io
+
+spec:
+  project: default
+  sources:
+  - repoURL: "https://fluent.github.io/helm-charts"
+    chart: fluent-bit
+    targetRevision: "0.21.7"
+    helm:
+      valueFiles:
+      - $values/infra-apps/values/fluent-bit-values.yaml
+  - repoURL: "https://github.com/sara-golombeck/gitops.git"
+    targetRevision: main
+    ref: values
+  destination:
+    server: "https://kubernetes.default.svc"
+    namespace: logging
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - ServerSideApply=true
+      - CreateNamespace=true
+
+
+
+
+# Upgrade!!!
+# apiVersion: argoproj.io/v1alpha1
+# kind: Application
+# metadata:
+#   name: fluentbit
+#   namespace: argocd
+#   finalizers:
+#     - resources-finalizer.argocd.argoproj.io
+# spec:
+#   project: default
+#   source:
+#     repoURL: "https://fluent.github.io/helm-charts"
+#     chart: fluent-bit
+#     targetRevision: "0.21.7"
+#     helm:
+#       values: |
+#         config:
+#           logLevel: debug
+#           service: |
+#             [SERVICE]
+#                 Daemon Off
+#                 Flush 5
+#                 Log_Level debug
+#                 Parsers_File parsers.conf
+#                 HTTP_Server On
+#                 HTTP_Listen 0.0.0.0
+#                 HTTP_Port 2020
+#                 Health_Check On
+          
+#           ## https://docs.fluentbit.io/manual/pipeline/inputs
+#           inputs: |
+#             [INPUT]
+#                 Name tail
+#                 Path /var/log/containers/*playlist*.log
+#                 Tag kube.*
+#                 Parser docker
+#                 Mem_Buf_Limit 50MB
+#                 Skip_Long_Lines On
+          
+#           ## https://docs.fluentbit.io/manual/pipeline/filters
+#           filters: |
+#             [FILTER]
+#                 Name parser
+#                 Match kube.*
+#                 Key_Name log
+#                 Parser playlist_json
+#                 Reserve_Data On
+          
+#           ## https://docs.fluentbit.io/manual/pipeline/outputs
+#           outputs: |
+#             [OUTPUT]
+#                 Name es
+#                 Match kube.*
+#                 Index fluent-bit
+#                 Type _doc
+#                 Host elasticsearch.logging.svc.cluster.local
+#                 Port 9200
+#                 HTTP_User elastic
+#                 HTTP_Passwd 9sRLSqZOhtUpSpyn
+#                 tls On
+#                 tls.verify Off
+#                 Logstash_Format On
+#                 Logstash_Prefix playlist-app
+#                 Retry_Limit False
+#                 Suppress_Type_Name On
+          
+#           parsers: |
+#             [PARSER]
+#                 Name docker
+#                 Format json
+#                 Time_Key time
+#                 Time_Format %Y-%m-%dT%H:%M:%S.%L
+#                 Time_Keep On
+            
+#             [PARSER]
+#                 Name playlist_json
+#                 Format json
+#                 Time_Key asctime
+#                 Time_Format %Y-%m-%d %H:%M:%S,%L
+#                 Time_Keep On
+        
+#         resources:
+#           requests:
+#             cpu: "100m"
+#             memory: "128Mi"
+#           limits:
+#             cpu: "200m"
+#             memory: "256Mi"
+            
+#   destination:
+#     server: "https://kubernetes.default.svc"
+#     namespace: logging
+#   syncPolicy:
+#     automated:
+#       prune: true
+#       selfHeal: true
+#     syncOptions:
+#       - ServerSideApply=true
+#       - CreateNamespace=true

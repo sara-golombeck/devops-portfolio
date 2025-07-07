@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "playlist-app.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "playlist-app.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: {{ .Values.service.targetPort }}
+      protocol: TCP
+      name: {{ .Values.service.name | quote }}
+  selector:
+    {{- include "playlist-app.selectorLabels" . | nindent 4 }}

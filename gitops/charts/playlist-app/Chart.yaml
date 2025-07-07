@@ -1,0 +1,16 @@
+
+apiVersion: v2
+name: playlist-app
+description: Playlist Management Application
+type: application
+version: 3.18.0
+appVersion: "{{.Values.deployment.image.tag}}"
+
+keywords:
+  - playlist
+  - api
+  - flask
+dependencies:
+  - name: mongodb
+    version: "16.5.11"
+    repository: "https://charts.bitnami.com/bitnami"

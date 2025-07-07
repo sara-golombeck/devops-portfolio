@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: playlist-app
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/sara-golombeck/gitops.git
+    targetRevision: HEAD
+    path: charts/playlist-app
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: playlists
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+      allowEmpty: false
+    syncOptions:
+      - CreateNamespace=true
+      - Validate=false
