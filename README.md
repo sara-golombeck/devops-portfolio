@@ -2,17 +2,6 @@
 
 A comprehensive DevOps portfolio demonstrating enterprise-grade cloud infrastructure, CI/CD pipelines, and GitOps practices using AWS, Kubernetes, and modern DevOps tooling.
 
-## 🏗️ Architecture Overview
-
-![AWS Infrastructure](diagrams/aws.png)
-
-This project implements a complete cloud-native solution featuring:
-
-- **Multi-repository GitOps architecture** with separate concerns for application, infrastructure, and deployment configurations
-- **Production-ready EKS cluster** with custom Terraform modules and comprehensive monitoring
-- **Automated CI/CD pipeline** with multi-stage testing, security scanning, and GitOps deployment
-- **Enterprise monitoring stack** with Prometheus, Grafana, and centralized logging via ELK stack
-
 ## 🔄 Complete System Flow
 
 ![System Flow](diagrams/flow.png)
@@ -26,6 +15,17 @@ The complete system demonstrates end-to-end DevOps practices:
 5. **Security**: TLS certificates, secrets management, and network policies
 
 ![CI/CD Pipeline](diagrams/ci.png)
+
+## 🏗️ Architecture Overview
+
+![AWS Infrastructure](diagrams/aws.png)
+
+This project implements a complete cloud-native solution featuring:
+
+- **Multi-repository GitOps architecture** with separate concerns for application, infrastructure, and deployment configurations
+- **Production-ready EKS cluster** with custom Terraform modules and comprehensive monitoring
+- **Automated CI/CD pipeline** with multi-stage testing, security scanning, and GitOps deployment
+- **Enterprise monitoring stack** with Prometheus, Grafana, and centralized logging via ELK stack
 
 ## 🚀 Project Components
 
@@ -51,7 +51,7 @@ The complete system demonstrates end-to-end DevOps practices:
 
 | Category | Technologies |
 |----------|-------------|
-| **Cloud Platform** | AWS (EKS, ECR, VPC, IAM) |
+| **Cloud Platform** | AWS (EKS, ECR, VPC, IAM, NAT Gateway, Systems Manager) |
 | **Container Orchestration** | Kubernetes, Helm |
 | **Infrastructure as Code** | Terraform (Custom Modules) |
 | **CI/CD** | Jenkins, Docker |
@@ -144,17 +144,28 @@ Access monitoring interfaces:
 
 ## 🔒 Security Implementation
 
-### Infrastructure Security
-- **Private EKS cluster** with endpoint access controls
-- **Security groups** with minimal required access
-- **IAM roles** following least privilege principle
-- **Encrypted storage** for all persistent volumes
+### AWS Infrastructure Security
+- **Private EKS cluster** with API endpoint restricted to authorized CIDR blocks
+- **Private subnets** for all worker nodes with no direct internet access
+- **NAT Gateway** for secure outbound internet connectivity from private subnets
+- **Security Groups** with strict ingress/egress rules and least privilege access
+- **IAM roles and policies** following AWS Well-Architected security principles
+- **VPC Flow Logs** for network traffic monitoring and security analysis
+- **AWS Systems Manager** for secure parameter storage and secrets management
+
+### Kubernetes Security
+- **NGINX Ingress Controller** with SSL/TLS termination and security headers
+- **Let's Encrypt certificates** with automated renewal via cert-manager
+- **Network Policies** for micro-segmentation and pod-to-pod communication control
+- **Pod Security Standards** with non-root containers and read-only root filesystems
+- **RBAC policies** for fine-grained access control to Kubernetes resources
+- **External Secrets Operator** for secure injection of AWS Parameter Store secrets
 
 ### Application Security
-- **TLS termination** with automated certificate management
-- **Container security** with non-root user execution
-- **Secrets management** via Kubernetes secrets and AWS Parameter Store
-- **Network policies** for pod-to-pod communication control
+- **Container image scanning** in CI/CD pipeline for vulnerability assessment
+- **Multi-stage Dockerfile** with minimal attack surface and security best practices
+- **Encrypted EBS volumes** for persistent storage with AWS KMS integration
+- **Service mesh ready** architecture for advanced traffic encryption and policy enforcement
 
 ## 📋 Project Structure
 
