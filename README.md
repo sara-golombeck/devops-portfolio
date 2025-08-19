@@ -209,7 +209,6 @@ The modular architecture supports easy customization:
 **Sara Golombeck**  
 DevOps Engineer  
 📧 sara.beck.dev@gmail.com  
-🔗 [LinkedIn](https://linkedin.com/in/sara-golombeck)  
 🐙 [GitHub](https://github.com/sara-golombeck)
 
 ---
