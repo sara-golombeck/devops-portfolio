@@ -1,6 +1,6 @@
-# DevOps Portfolio - Cloud-Native Playlist Management System
+# DevOps Portfolio - End-to-End Cloud-Native Application Deployment
 
-A comprehensive DevOps portfolio demonstrating enterprise-grade cloud infrastructure, CI/CD pipelines, and GitOps practices using AWS, Kubernetes, and modern DevOps tooling.
+A comprehensive DevOps portfolio showcasing complete end-to-end deployment of a cloud-native application with enterprise-grade infrastructure, automated CI/CD pipelines, and production-ready monitoring using AWS, Kubernetes, and modern DevOps practices.
 
 ## 🔄 Complete System Flow
 
