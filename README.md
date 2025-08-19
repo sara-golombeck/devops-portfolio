@@ -81,19 +81,15 @@ This project implements a complete cloud-native solution featuring:
 - **Infrastructure monitoring**: Node and cluster health monitoring
 - **Alerting**: Grafana alerts for critical system events
 
-## 🚦 API Endpoints
+## 🔍 Production-Ready Application Features
 
-The playlist management API provides the following endpoints:
+The application demonstrates enterprise-grade capabilities:
 
-```
-POST   /playlists/{name}     # Create new playlist
-PUT    /playlists/{name}     # Update existing playlist  
-DELETE /playlists/{name}     # Delete playlist
-GET    /playlists/{name}     # Retrieve specific playlist
-GET    /playlists            # List all playlists (paginated)
-GET    /health               # Health check endpoint
-GET    /metrics              # Prometheus metrics
-```
+- **Health Check Endpoint** (`/health`): Kubernetes-native health monitoring with MongoDB connectivity validation
+- **Prometheus Metrics** (`/metrics`): Custom business metrics and application performance indicators for comprehensive observability
+- **Structured JSON Logging**: Production-ready logging with request tracing and correlation IDs for distributed system debugging
+- **Database Integration**: MongoDB with replica set configuration and connection pooling for high availability
+- **Graceful Error Handling**: Comprehensive error responses with proper HTTP status codes and structured error messages
 
 ## 🏃‍♂️ Quick Start
 
@@ -134,6 +130,10 @@ The project includes comprehensive monitoring with:
 - **Prometheus alerting rules** for proactive incident response  
 - **Centralized logging** with Elasticsearch and Kibana
 - **Application performance monitoring** with request tracing and error tracking
+
+![Monitoring Stack](diagrams/monitoring.png)
+
+![Logging Architecture](diagrams/logging.png)
 
 ![Logging Architecture](diagrams/logging.png)
 
