@@ -131,10 +131,6 @@ The project includes comprehensive monitoring with:
 - **Centralized logging** with Elasticsearch and Kibana
 - **Application performance monitoring** with request tracing and error tracking
 
-![Monitoring Stack](diagrams/monitoring.png)
-
-![Logging Architecture](diagrams/logging.png)
-
 ![Logging Architecture](diagrams/logging.png)
 
 Access monitoring interfaces:
