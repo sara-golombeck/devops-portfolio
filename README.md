@@ -13,6 +13,18 @@ This project implements a complete cloud-native solution featuring:
 - **Automated CI/CD pipeline** with multi-stage testing, security scanning, and GitOps deployment
 - **Enterprise monitoring stack** with Prometheus, Grafana, and centralized logging via ELK stack
 
+## 🔄 Complete System Flow
+
+![System Flow](diagrams/flow.png)
+
+The complete system demonstrates end-to-end DevOps practices:
+
+1. **Development**: Code changes pushed to GitHub trigger Jenkins pipeline
+2. **CI/CD**: Automated testing, building, and deployment via GitOps
+3. **Infrastructure**: EKS cluster with monitoring and logging stack
+4. **Observability**: Comprehensive monitoring with Prometheus, Grafana, and ELK stack
+5. **Security**: TLS certificates, secrets management, and network policies
+
 ![CI/CD Pipeline](diagrams/ci.png)
 
 ## 🚀 Project Components
@@ -114,12 +126,16 @@ kubectl port-forward svc/argocd-server -n argocd 8080:443
 
 ## 📈 Monitoring & Observability
 
+![Monitoring Stack](diagrams/monitoring.png)
+
 The project includes comprehensive monitoring with:
 
 - **Custom Grafana dashboards** showing application and infrastructure metrics
 - **Prometheus alerting rules** for proactive incident response  
 - **Centralized logging** with Elasticsearch and Kibana
 - **Application performance monitoring** with request tracing and error tracking
+
+![Logging Architecture](diagrams/logging.png)
 
 Access monitoring interfaces:
 - Grafana: `https://sara-portfolio.ddns.net/grafana`
